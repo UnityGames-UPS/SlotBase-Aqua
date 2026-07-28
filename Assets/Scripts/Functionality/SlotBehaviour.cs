@@ -942,6 +942,14 @@ public class SlotBehaviour : MonoBehaviour
     }
 
   }
+
+  internal void UpdateBalanceDisplay(double newBalance)
+  {
+    BalanceTween?.Kill();
+    currentBalance = newBalance;
+    if (Balance_text) Balance_text.text = newBalance.ToString("f3");
+    CompareBalance();
+  }
   internal void CheckWinPopups()
   {
     if (SocketManager.ResultData.payload.winAmount >= currentTotalBet * 5 && SocketManager.ResultData.payload.winAmount < currentTotalBet * 10)

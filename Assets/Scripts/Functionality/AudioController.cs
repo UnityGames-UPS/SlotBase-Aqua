@@ -19,8 +19,13 @@ public class AudioController : MonoBehaviour
     [SerializeField] private AudioClip NormalBg_Audio;
     [SerializeField] private AudioClip BonusBg_Audio;
 
+    private bool isForceMuted = false;
+    private List<AudioSource> allSources;
+    private readonly Dictionary<AudioSource, bool> preFocusMuteState = new Dictionary<AudioSource, bool>();
+
     private void Start()
     {
+        allSources = new List<AudioSource> { bg_adudio, audioPlayer_wl, audioPlayer_button, audioPlayer_Spin };
         playBgAudio();
         //audioPlayer_button.clip = clips[clips.Length - 1];
     }
@@ -59,20 +64,26 @@ public class AudioController : MonoBehaviour
 
     private void OnApplicationFocus(bool focus)
     {
-        if (!focus)
-        {
-            bg_adudio.Pause();
-            audioPlayer_wl.Pause();
-            audioPlayer_button.Pause();
-            audioPlayer_Spin.Pause();
-        }
-        else
-        {
-            if (!bg_adudio.mute) bg_adudio.UnPause();
-            if (!audioPlayer_wl.mute) audioPlayer_wl.UnPause();
-            if (!audioPlayer_button.mute) audioPlayer_button.UnPause();
-            if (!audioPlayer_Spin.mute) audioPlayer_Spin.UnPause();
+        SetMuteAll(!focus);
+    }
 
+    internal void SetMuteAll(bool forceMute)
+    {
+        if (forceMute == isForceMuted) return;
+        isForceMuted = forceMute;
+
+        foreach (var source in allSources)
+        {
+            if (source == null) continue;
+            if (forceMute)
+            {
+                preFocusMuteState[source] = source.mute;
+                source.mute = true;
+            }
+            else
+            {
+                source.mute = preFocusMuteState.TryGetValue(source, out bool prevMuted) ? prevMuted : source.mute;
+            }
         }
     }
 
@@ -157,6 +168,9 @@ public class AudioController : MonoBehaviour
 
     internal void ToggleMute(bool toggle, string type = "all")
     {
+        // A real UI mute/unmute click proves interactive focus — it must always win
+        // over a stuck forced-mute flag from a missed/unpaired focus-regain signal.
+        isForceMuted = false;
 
         switch (type)
         {
