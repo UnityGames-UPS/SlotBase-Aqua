@@ -169,7 +169,7 @@ public class UIManager : MonoBehaviour
 
   private Tween WinPopupTextTween;
   private Tween ClosePopupTween;
-  internal int FreeSpins;
+  private int FreeSpins;
 
   [SerializeField]
   private Button SkipWinAnimation;

@@ -18,9 +18,9 @@ public class SocketIOManager : MonoBehaviour
   internal UiData UIData = null;
   internal Root ResultData = null;
   internal Player PlayerData = null;
-  internal Root GambleData = null;
+  private Root GambleData = null;
   internal Root bonusData = new();
-  internal List<List<int>> LineData = null;
+  private List<List<int>> LineData = null;
 
   //WebSocket currentSocket = null;
   internal bool isResultdone = false;
@@ -38,9 +38,9 @@ public class SocketIOManager : MonoBehaviour
   [SerializeField] internal JSFunctCalls JSManager;
   //protected string gameID = "";
   protected string gameID = "SL-AQUA";
-  internal bool isLoading;
+  private bool isLoading;
 
-  internal bool SetInit = false;
+  private bool SetInit = false;
   private const int maxReconnectionAttempts = 6;
   private readonly TimeSpan reconnectionDelay = TimeSpan.FromSeconds(10);
   private bool isConnected = false; //Back2 Start

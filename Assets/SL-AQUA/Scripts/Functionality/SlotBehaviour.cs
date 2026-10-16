@@ -172,7 +172,7 @@ public class SlotBehaviour : MonoBehaviour
   [SerializeField] bool IsSpinning = false;
   internal bool IsHoldSpin = false;
   internal int BetCounter = 0;
-  internal int linecounter = 20;
+  private int linecounter = 20;
   internal bool CheckPopups = false;
   private double bet = 0;
   private double balance = 0;
@@ -241,7 +241,7 @@ public class SlotBehaviour : MonoBehaviour
     Debug.Log("testing development environment");
   }
 
-  internal void AutoSpin()
+  private void AutoSpin()
   {
     if (!IsAutoSpin)
     {
@@ -261,7 +261,7 @@ public class SlotBehaviour : MonoBehaviour
     }
   }
 
-  internal void FreeSpin(int spins)
+  private void FreeSpin(int spins)
   {
 
     if (!IsFreeSpin)
@@ -424,7 +424,7 @@ public class SlotBehaviour : MonoBehaviour
     PayCalculator.ResetStaticLine();
   }
 
-  internal double GetCurrentbetperLine()
+  private double GetCurrentbetperLine()
   {
 
     return SocketManager.InitialData.bets[BetCounter];
@@ -442,7 +442,7 @@ public class SlotBehaviour : MonoBehaviour
 
   }
 
-  internal void ChangeLine(bool IncDec)
+  private void ChangeLine(bool IncDec)
   {
 
     if (audioController)
@@ -950,7 +950,7 @@ public class SlotBehaviour : MonoBehaviour
     if (Balance_text) Balance_text.text = newBalance.ToString("f3");
     CompareBalance();
   }
-  internal void CheckWinPopups()
+  private void CheckWinPopups()
   {
     if (SocketManager.ResultData.payload.winAmount >= currentTotalBet * 5 && SocketManager.ResultData.payload.winAmount < currentTotalBet * 10)
     {
